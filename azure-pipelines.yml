@@ -46,22 +46,8 @@ stages:
     - script: 'npx sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
       displayName: 'Compile Sass assets'
 
-      - script: 'npm install gulp-cli --save-dev'
-      displayName: 'Install gulp-cli locally'
-
-    - script: 'npm install gulp --save-dev'
-      displayName: 'Install gulp locally'
-
-    # Check gulp installation
-    - script: 'npm list gulp-cli gulp'
-      displayName: 'Check if gulp and gulp-cli are installed'
-
-    # Run gulp tasks
-    - script: 'npx gulp'
-      displayName: 'Run gulp tasks using npx'
-
     - task: gulp@1
-      displayName: 'Run gulp tasks with task'
+      displayName: 'Run gulp tasks'
 
     - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
       displayName: 'Write build info'
