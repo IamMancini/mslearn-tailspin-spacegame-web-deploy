@@ -37,8 +37,11 @@ stages:
       inputs:
         verbose: false
 
-    - script: 'node_modules\.bin\sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
-      displayName: 'Compile Sass assets with sass'
+    - script: 'npm list sass'
+      displayName: 'Check if sass is installed'
+
+    - script: 'node "node_modules/sass/sass.js" Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
+      displayName: 'Compile Sass assets with sass (using node directly)'
 
     - task: gulp@1
       displayName: 'Run gulp tasks'
