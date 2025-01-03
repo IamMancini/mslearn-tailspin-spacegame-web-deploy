@@ -43,9 +43,17 @@ stages:
     - script: 'npm list sass'
       displayName: 'Check if sass is installed'
       
-
     - script: 'npx sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
       displayName: 'Compile Sass assets'
+
+      - script: 'npm install gulp --save-dev'
+      displayName: 'Install gulp locally'
+
+    - script: 'npm list gulp'
+      displayName: 'Check if gulp is installed'
+
+    - script: 'npx gulp'
+      displayName: 'Run gulp tasks (via npx)'
 
     - task: gulp@1
       displayName: 'Run gulp tasks'
