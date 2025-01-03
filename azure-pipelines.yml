@@ -129,7 +129,7 @@ stages:
   jobs:
   - deployment: Deploy
     pool:
-    name: 'Default'
+      name: 'Default'
       demands:
         - npm
         - agent.name -equals AMANCINI
