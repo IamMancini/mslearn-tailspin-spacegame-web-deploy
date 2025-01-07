@@ -11,9 +11,10 @@ stages:
   - job: 'Build'
     displayName: 'Build job'
     pool:
-      vmImage: 'ubuntu-20.04'
+      name: 'Default'
       demands:
-      - npm
+        - npm
+        - agent.name -equals AMANCINI
 
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
@@ -25,16 +26,31 @@ stages:
       inputs:
         version: '$(dotnetSdkVersion)'
 
+    - task: UseNode@1
+      displayName: 'Use Node.js 16.x'
+      inputs:
+        version: '16.x'
+        
     - task: Npm@1
       displayName: 'Run npm install'
       inputs:
         verbose: false
 
-    - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+    - script: 'npm install sass --save-dev'
+      displayName: 'Install sass'
+
+    - script: 'npm list sass'
+      displayName: 'Check if sass is installed'
+      
+    - script: 'npx sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
       displayName: 'Compile Sass assets'
 
-    - task: gulp@1
-      displayName: 'Run gulp tasks'
+    - script: 'npm install gulp gulp-cli --save-dev'
+      displayName: 'Install gulp and gulp-cli'
+
+    # Run gulp tasks using npx
+    - script: 'npx gulp'
+      displayName: 'Run gulp tasks using npx'
 
     - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
       displayName: 'Write build info'
@@ -71,7 +87,10 @@ stages:
   jobs:
   - deployment: Deploy
     pool:
-      vmImage: 'ubuntu-20.04'
+      name: 'Default'
+      demands:
+        - npm
+        - agent.name -equals AMANCINI
     environment: dev
     variables:
     - group: Release
@@ -94,7 +113,10 @@ stages:
   jobs:
   - deployment: Deploy
     pool:
-      vmImage: 'ubuntu-20.04'
+      name: 'Default'
+      demands:
+        - npm
+        - agent.name -equals AMANCINI
     environment: test
     variables:
     - group: 'Release'
@@ -117,7 +139,10 @@ stages:
   jobs:
   - deployment: Deploy
     pool:
-      vmImage: 'ubuntu-20.04'
+      name: 'Default'
+      demands:
+        - npm
+        - agent.name -equals AMANCINI
     environment: staging
     variables:
     - group: 'Release'
