@@ -109,7 +109,6 @@ stages:
               slotName: 'swap'
               appName: 'tailspin-space-game-web-dev-31914'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-
               - stage: 'Test'
               displayName: 'Deploy to the test environment'
               dependsOn: Dev
