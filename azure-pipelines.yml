@@ -101,10 +101,10 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
+            displayName: 'Azure App Service Deploy: Dev'
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
-              appName: '$(WebAppNameDev)'
+              appName: 'tailspin-space-game-web-dev-18002'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
 - stage: 'Test'
@@ -127,10 +127,10 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
+            displayName: 'Azure App Service Deploy: Test'
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
-              appName: '$(WebAppNameTest)'
+              appName: 'tailspin-space-game-web-test-18002'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
 - stage: 'Staging'
@@ -153,20 +153,20 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
+            displayName: 'Azure App Service Deploy: Staging'
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               deployToSlotOrASE: 'true'
               resourceGroupName: 'tailspin-space-game-rg'
               slotName: 'swap'
-              appName: '$(WebAppNameStaging)'
+              appName: 'tailspin-space-game-web-staging-18002'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
           - task: AzureAppServiceManage@0
             displayName: 'Swap deployment slots'
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               resourceGroupName: 'tailspin-space-game-rg'
-              webAppName: '$(WebAppNameStaging)'
+              webAppName: 'tailspin-space-game-web-staging-18002'
               sourceSlot: 'swap'
               targetSlot: 'production'
               action: 'Swap Slots'
